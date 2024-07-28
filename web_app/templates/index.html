@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Packet Viewer</title>
+    <h1>Welcome to Packet Sniffing </h1>
+
+    <p>Hi this is packet sniffer project</p>
+</head>
+<body>
+    <div id="packet-data"></div>
+    <script>
+        const websocket = new WebSocket('ws://localhost:8000');
+
+        websocket.onopen = function(event) {
+            console.log('WebSocket connected');
+        };
+
+        websocket.onmessage = function(event) {
+            const packetData = JSON.parse(event.data);
+            const packetElement = document.createElement('div');
+            packetElement.textContent = JSON.stringify(packetData, null, 2);
+            document.getElementById('packet-data').appendChild(packetElement);
+        };
+
+        websocket.onerror = function(error) {
+            console.error('WebSocket error:', error);
+        };
+    </script>
+</body>
+</html>
